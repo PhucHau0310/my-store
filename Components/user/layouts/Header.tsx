@@ -40,7 +40,7 @@ const Header = () => {
     };
 
     return (
-        <div className="bg-white fixed top-0 left-0 right-0 py-6">
+        <nav className="bg-white fixed top-0 left-0 right-0 py-6">
             <div className="flex flex-row items-center w-[1400px] bg-orange-200 mx-auto">
                 <Link
                     href={'/'}
@@ -147,7 +147,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     );
 };
 
