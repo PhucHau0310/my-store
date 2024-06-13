@@ -1,6 +1,7 @@
 'use client';
 
 import deliveryAnimation from '@/public/animations/hero-animation.json';
+import { Box, Button, Typography } from '@mui/material';
 import Lottie from 'react-lottie-player';
 
 const Animation = () => {
@@ -22,16 +23,33 @@ const Animation = () => {
                 play
                 className="w-screen"
             />
-            <h1 className="absolute top-[20%] w-1/4 right-20 text-[#154f41] font-semibold text-5xl">
-                Online Software Products Store .
-            </h1>
-
-            <button
-                onClick={handleScroll}
-                className="absolute top-1/3 right-80 hover:opacity-90 bg-[#154f41] text-white rounded-3xl p-4"
+            <Box
+                sx={{
+                    position: 'absolute',
+                    right: '10%',
+                    top: '20%',
+                    width: '300px',
+                }}
             >
-                Buy Products
-            </button>
+                <Typography variant="h4" color="green">
+                    Online Software Products Store .
+                </Typography>
+
+                <Button
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        marginTop: '10px',
+                        width: '150px',
+                        height: '50px',
+                        borderRadius: '999px',
+                    }}
+                >
+                    <Typography variant="button" color="white">
+                        Buy Products
+                    </Typography>
+                </Button>
+            </Box>
         </div>
     );
 };
