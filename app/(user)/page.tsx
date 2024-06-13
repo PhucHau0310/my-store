@@ -1,7 +1,11 @@
+import Animation from '@/Components/user/layouts/Animation';
+
 export default function Home() {
     return (
-        <div>
-            <div className="h-[3000px] bg-slate-500">Home</div>
+        <div className="bg-blue-300 mt-12">
+            <div className="h-[3000px] text-center">
+                <Animation />
+            </div>
         </div>
     );
 }
