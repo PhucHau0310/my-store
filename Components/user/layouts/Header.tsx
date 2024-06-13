@@ -42,7 +42,7 @@ const Header = () => {
     return (
         <Container
             maxWidth="xl"
-            className="bg-white fixed top-0 left-0 right-0 py-6 "
+            className="bg-white fixed top-0 left-0 right-0 py-6"
         >
             <Container maxWidth="lg" className="flex flex-row items-center ">
                 <Link
