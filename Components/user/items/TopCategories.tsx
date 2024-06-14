@@ -1,16 +1,18 @@
 import {
+    Box,
     Button,
     Card,
     CardActionArea,
     CardActions,
     CardContent,
     CardMedia,
+    Container,
     Typography,
 } from '@mui/material';
 
 const TopCategories = () => {
     return (
-        <div className="my-10">
+        <Box>
             <Typography
                 variant="h4"
                 color="text.primary"
@@ -18,7 +20,15 @@ const TopCategories = () => {
             >
                 Store Our Top Categories
             </Typography>
-            <div className="overflow-y-auto flex flex-row gap-6 pb-10">
+            <Box
+                sx={{
+                    overflowX: 'scroll',
+                    paddingBottom: '40px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '24px',
+                }}
+            >
                 <Card sx={{ maxWidth: 345, flexShrink: 0 }}>
                     <CardActionArea>
                         <CardMedia
@@ -139,8 +149,8 @@ const TopCategories = () => {
                         </Button>
                     </CardActions>
                 </Card>
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 

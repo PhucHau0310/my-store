@@ -6,7 +6,18 @@ import { Box, Button, Typography } from '@mui/material';
 
 const CashBack = () => {
     return (
-        <div className="w-full bg-[#7ed2e4] flex flex-row items-center justify-between rounded-lg">
+        <Box
+            sx={{
+                width: '100%',
+                backgroundColor: '#7ed2e4',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderRadius: '8x',
+                marginTop: '120px',
+            }}
+        >
             <Box
                 sx={{
                     width: '400px',
@@ -45,7 +56,7 @@ const CashBack = () => {
                     className="w-full h-[400px] overflow-hidden rounded-br-lg"
                 />
             </div>
-        </div>
+        </Box>
     );
 };
 

@@ -21,7 +21,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 
 const logoStyle = {
@@ -32,13 +32,10 @@ const logoStyle = {
 
 function Header() {
     const [categories, setCategories] = React.useState('');
-
-    const handleChangeCategory = (event: SelectChangeEvent) => {
-        setCategories(event.target.value as string);
-    };
-
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const userClient = useUser();
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -46,6 +43,9 @@ function Header() {
         setAnchorEl(null);
     };
 
+    const handleChangeCategory = (event: SelectChangeEvent) => {
+        setCategories(event.target.value as string);
+    };
     return (
         <div>
             <AppBar
@@ -201,7 +201,7 @@ function Header() {
                             </SignedOut>
                             <SignedIn>
                                 <Typography variant="body1" color="black">
-                                    Account
+                                    Hi, {userClient.user?.username}
                                 </Typography>
                                 <UserButton />
                             </SignedIn>

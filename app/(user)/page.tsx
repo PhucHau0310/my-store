@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <div className="">
             <Animation />
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" sx={{ marginY: '50px' }}>
                 <TopCategories />
                 <BestDeal />
                 <GetUp />

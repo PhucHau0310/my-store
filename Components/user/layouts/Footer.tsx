@@ -1,3 +1,5 @@
+'use client';
+
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import HelpIcon from '@mui/icons-material/Help';
@@ -9,180 +11,301 @@ import klarna from '@/public/icons/klarna.svg';
 import applePay from '@/public/icons/apple-pay.svg';
 import ggPay from '@/public/icons/google-pay.svg';
 import Image from 'next/image';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 const Footer = () => {
     const cardPayment = [stripe, visa, amazon, klarna, applePay, ggPay];
     return (
-        <Container maxWidth="lg">
-            <div className="flex flex-row items-start gap-4 border-t-2 mt-8 pt-10 border-t-[#e4e2e2] ">
-                <div className="w-[40%]">
-                    <Box
-                        sx={{
-                            alignItems: 'center',
-                            ml: '-18px',
-                            px: 0,
-                        }}
-                    >
-                        <img
-                            src={
-                                'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
-                            }
-                            style={{
-                                width: '180px',
-                                height: 'auto',
-                                cursor: 'pointer',
-                            }}
-                            alt="logo of sitemark"
-                        />
-                    </Box>
+        <Container
+            maxWidth="lg"
+            sx={{
+                marginBottom: '50px',
+                borderTop: '1px solid black',
+                paddingTop: '100px',
+            }}
+        >
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid xs={12} md={5} lg={4}>
+                        <Item>
+                            <Box
+                                sx={{
+                                    alignItems: 'center',
+                                    px: 0,
+                                }}
+                            >
+                                <img
+                                    src={
+                                        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
+                                    }
+                                    style={{
+                                        width: '150px',
+                                        height: 'auto',
+                                        cursor: 'pointer',
+                                    }}
+                                    alt="logo of sitemark"
+                                />
+                            </Box>
+                            <Typography sx={{ alignItems: 'start' }}>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Laboriosam provident sint
+                                exercitationem fugit, quidem magni quo facilis.
+                                Aut deserunt cum accusantium, officia quas, ex,
+                                laudantium in eveniet voluptatem rerum
+                                aspernatur.
+                            </Typography>
+                        </Item>
 
-                    <p className="text-base font-medium my-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Laboriosam provident sint exercitationem fugit, quidem
-                        magni quo facilis. Aut deserunt cum accusantium, officia
-                        quas, ex, laudantium in eveniet voluptatem rerum
-                        aspernatur.
-                    </p>
+                        <Item sx={{ marginTop: '30px' }}>
+                            <Typography
+                                fontSize={'20px'}
+                                fontWeight={'bold'}
+                                sx={{ marginBottom: '20px' }}
+                            >
+                                Accepted Payments
+                            </Typography>
+                            <Grid
+                                container
+                                spacing={{ xs: 2, md: 3 }}
+                                columns={{ xs: 4, sm: 8, md: 12 }}
+                            >
+                                {cardPayment.map((image, index) => (
+                                    <Grid xs={2} sm={4} md={4} key={index}>
+                                        <Image
+                                            src={image}
+                                            style={{
+                                                width: '50px',
+                                                border: '1px solid black',
+                                                padding: '4px',
+                                                borderRadius: '12px',
+                                            }}
+                                            alt="image"
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Item>
+                    </Grid>
 
-                    <div>
-                        <h2 className="font-semibold text-base mb-3">
-                            Accepted Payments
-                        </h2>
-
-                        <div className="grid grid-cols-3 gap-4 w-1/3">
-                            {cardPayment.map((item, idx) => (
-                                <div
-                                    className="rounded-lg p-2 border border-[#e4e2e2]"
-                                    key={idx}
+                    <Grid container xs={12} md={7} lg={8} spacing={4}>
+                        <Grid xs={6} lg={3}>
+                            <Item>
+                                <Box
+                                    id="category-a"
+                                    sx={{
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                    }}
                                 >
-                                    <Image
-                                        src={item}
-                                        alt={item}
-                                        width={30}
-                                        height={30}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                                    Department
+                                </Box>
+                                <Box
+                                    component="ul"
+                                    aria-labelledby="category-a"
+                                    sx={{ pl: 2 }}
+                                >
+                                    <li style={{ marginTop: '10px' }}>
+                                        Fashion
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Education Product
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Frozen Food
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Fashion
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Education Product
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Frozen Food
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Fashion
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Education Product
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Frozen Food
+                                    </li>
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid xs={6} lg={3}>
+                            <Item>
+                                <Box
+                                    id="category-b"
+                                    sx={{
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                    }}
+                                >
+                                    About Us
+                                </Box>
+                                <Box
+                                    component="ul"
+                                    aria-labelledby="category-b"
+                                    sx={{ pl: 2 }}
+                                >
+                                    <li style={{ marginTop: '10px' }}>
+                                        About ShopCart
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        News & Blog
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>Help</li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        About ShopCart
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        News & Blog
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>Help</li>
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid xs={6} lg={3}>
+                            <Item>
+                                <Box
+                                    id="category-c"
+                                    sx={{
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                    }}
+                                >
+                                    Services
+                                </Box>
+                                <Box
+                                    component="ul"
+                                    aria-labelledby="category-c"
+                                    sx={{ pl: 2 }}
+                                >
+                                    <li style={{ marginTop: '10px' }}>
+                                        Gift Card
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Mobile App
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Shipping & Delivery
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Order Pickup
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Account SignUp
+                                    </li>
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid xs={6} lg={3}>
+                            <Item>
+                                <Box
+                                    id="category-d"
+                                    sx={{
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                    }}
+                                >
+                                    Help
+                                </Box>
+                                <Box
+                                    component="ul"
+                                    aria-labelledby="category-d"
+                                    sx={{ pl: 2 }}
+                                >
+                                    <li style={{ marginTop: '10px' }}>
+                                        Shopcart Help
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Returns
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Track Orders
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Contact Us
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Feedback
+                                    </li>
+                                    <li style={{ marginTop: '10px' }}>
+                                        Security & Fraud
+                                    </li>
+                                </Box>
+                            </Item>
+                        </Grid>
+                    </Grid>
 
-                <div className="w-[15%] ">
-                    <ul className="text-[#726f6e]">
-                        <span className="font-semibold text-lg mb-2 block">
-                            Department
-                        </span>
-                        <li className="mb-2">Fashion</li>
-                        <li className="mb-2">Education Product</li>
-                        <li className="mb-2">Frozen Food</li>
-                        <li className="mb-2">Beverages</li>
-                        <li className="mb-2">Organic Grocery</li>
-                        <li className="mb-2">Office Supplies</li>
-                        <li className="mb-2">Beauty Products</li>
-                        <li className="mb-2">Books</li>
-                        <li className="mb-2">Electronics & Gadget</li>
-                        <li className="mb-2">Travel Accessories</li>
-                        <li className="mb-2">Fitness</li>
-                        <li className="mb-2">Sneakers</li>
-                        <li className="mb-2">Toys</li>
-                        <li className="mb-2">Furniture</li>
-                    </ul>
-                </div>
-
-                <div className="w-[15%]">
-                    <ul className="text-[#726f6e]">
-                        <span className="font-semibold text-lg mb-2 block">
-                            About Us
-                        </span>
-                        <li className="mb-2">About ShopCart</li>
-                        <li className="mb-2">Careers</li>
-                        <li className="mb-2">News & Blog</li>
-                        <li className="mb-2">Help</li>
-                        <li className="mb-2">Press Center</li>
-                        <li className="mb-2">Shop By Location</li>
-                        <li className="mb-2">Shopcart Brands</li>
-                        <li className="mb-2">Affiliate & Partners</li>
-                        <li className="mb-2">Ideas & Guides</li>
-                    </ul>
-                </div>
-
-                <div className="w-[15%] ">
-                    <ul className="text-[#726f6e]">
-                        <span className="font-semibold text-lg mb-2 block">
-                            Services
-                        </span>
-                        <li className="mb-2">Gift Card</li>
-                        <li className="mb-2">Mobile App</li>
-                        <li className="mb-2">Shipping & Delivery</li>
-                        <li className="mb-2">Order Pickup</li>
-                        <li className="mb-2">Account SignUp</li>
-                    </ul>
-                </div>
-
-                <div className="w-[15%] ">
-                    <ul className="text-[#726f6e]">
-                        <span className="font-semibold text-lg mb-2 block">
-                            Help
-                        </span>
-                        <li className="mb-2">Shopcart Help</li>
-                        <li className="mb-2">Returns</li>
-                        <li className="mb-2">Track Orders</li>
-                        <li className="mb-2">Contact Us</li>
-                        <li className="mb-2">Feedback</li>
-                        <li className="mb-2">Security & Fraud</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div className="flex flex-row justify-between items-center border-t-2 mt-8 mb-2 border-t-[#e4e2e2] py-10 text-lg font-medium">
-                <div className="w-[40%] flex flex-row items-center gap-3">
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '2px',
-                        }}
+                    <Grid
+                        xs={12}
+                        container
+                        justifyContent="space-between"
+                        alignItems="center"
+                        flexDirection={{ xs: 'column', sm: 'row' }}
+                        sx={{ fontSize: '12px' }}
                     >
-                        <BusinessCenterIcon color="secondary" />
-                        <Typography variant="h6" color="text.primary">
-                            Become Seller
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '2px',
-                        }}
-                    >
-                        <CardGiftcardIcon color="secondary" />
-                        <Typography variant="h6" color="text.primary">
-                            Gift Cards
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '2px',
-                        }}
-                    >
-                        <HelpIcon color="secondary" />
-                        <Typography variant="h6" color="text.primary">
-                            Help Center
-                        </Typography>
-                    </Box>
-                </div>
+                        <Grid
+                            container
+                            columnSpacing={1}
+                            sx={{ order: { xs: 1, sm: 2 } }}
+                        >
+                            <Grid>
+                                <Item>Terms of Use</Item>
+                            </Grid>
+                            <Grid>
+                                <Item>Privacy Policy</Item>
+                            </Grid>
+                        </Grid>
 
-                <div className="w-[30%] flex flex-row gap-8 items-center">
-                    <p>Terms of Use</p>
-                    <p>Privacy Policy</p>
-                </div>
+                        <Grid
+                            container
+                            columnSpacing={1}
+                            sx={{ order: { xs: 1, sm: 2 } }}
+                        >
+                            <Grid>
+                                <Item>
+                                    <BusinessCenterIcon />
+                                    <Typography>Become Seller</Typography>
+                                </Item>
+                            </Grid>
+                            <Grid>
+                                <Item>
+                                    <CardGiftcardIcon />
+                                    <Typography>Gift Cards</Typography>
+                                </Item>
+                            </Grid>
+                            <Grid>
+                                <Item>
+                                    <HelpIcon />
+                                    <Typography>Help Center</Typography>
+                                </Item>
+                            </Grid>
+                        </Grid>
 
-                <div className="w-[30%] text-right ">
-                    <p>All Right reserved by NguyenHau | 2024</p>
-                </div>
-            </div>
+                        <Grid sx={{ order: { xs: 2, sm: 1 } }}>
+                            <Item>© Copyright: NguyenHau | 2024</Item>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
         </Container>
     );
 };

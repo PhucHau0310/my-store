@@ -1,4 +1,5 @@
 import {
+    Box,
     Card,
     CardActionArea,
     CardContent,
@@ -8,8 +9,16 @@ import {
 
 const Feature = () => {
     return (
-        <div className="mt-32 mb-18">
-            <div className="flex flex-row justify-between gap-6 pb-10">
+        <Box sx={{ marginTop: '120px' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    gap: '24px',
+                    paddingBottom: '40px',
+                }}
+            >
                 <Card sx={{ maxWidth: 360, flexShrink: 0 }}>
                     <CardActionArea>
                         <CardContent>
@@ -81,8 +90,8 @@ const Feature = () => {
                         />
                     </CardActionArea>
                 </Card>
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 
