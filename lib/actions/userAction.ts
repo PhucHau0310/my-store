@@ -47,3 +47,13 @@ export const deleteUser = async (idUser: string) => {
         return error;
     }
 };
+
+export const getAllUser = async () => {
+    try {
+        const users = await prisma.user.findMany();
+        return users;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
