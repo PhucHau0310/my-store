@@ -27,7 +27,7 @@ const Animation = () => {
                 sx={{
                     position: 'absolute',
                     right: '10%',
-                    top: '20%',
+                    top: '25%',
                     width: '300px',
                 }}
             >

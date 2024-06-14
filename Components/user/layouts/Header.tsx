@@ -2,11 +2,12 @@
 
 import * as React from 'react';
 import {
+    Badge,
     FormControl,
     IconButton,
     InputAdornment,
-    InputBase,
     InputLabel,
+    Menu,
     OutlinedInput,
     Select,
     SelectChangeEvent,
@@ -20,6 +21,8 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 const logoStyle = {
     width: '140px',
@@ -32,6 +35,15 @@ function Header() {
 
     const handleChangeCategory = (event: SelectChangeEvent) => {
         setCategories(event.target.value as string);
+    };
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -165,39 +177,76 @@ function Header() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Button
-                                color="primary"
-                                variant="text"
-                                size="small"
-                                component="a"
-                                href="/material-ui/getting-started/templates/sign-in/"
-                                target="_blank"
-                            >
-                                Sign in
-                            </Button>
-                            <Button
-                                color="primary"
-                                variant="contained"
-                                size="small"
-                                component="a"
-                                href="/material-ui/getting-started/templates/sign-up/"
-                                target="_blank"
-                            >
-                                Sign up
-                            </Button>
+                            <SignedOut>
+                                <Button
+                                    color="primary"
+                                    variant="text"
+                                    size="small"
+                                    component="a"
+                                    href="/material-ui/getting-started/templates/sign-in/"
+                                    target="_blank"
+                                >
+                                    <Link href={'/sign-in'}>Sign in</Link>
+                                </Button>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    size="small"
+                                    component="a"
+                                    href="/material-ui/getting-started/templates/sign-up/"
+                                    target="_blank"
+                                >
+                                    <Link href={'/sign-up'}>Sign up</Link>
+                                </Button>
+                            </SignedOut>
+                            <SignedIn>
+                                <Typography variant="body1" color="black">
+                                    Account
+                                </Typography>
+                                <UserButton />
+                            </SignedIn>
                         </Box>
 
                         <Box
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: '2px',
+                                gap: '3px',
                             }}
                         >
-                            <ShoppingCartIcon color="primary" />
-                            <Typography variant="h6" color="text.primary">
-                                Cart
-                            </Typography>
+                            <Badge badgeContent={4} color="success">
+                                <ShoppingCartIcon color="primary" />
+                            </Badge>
+
+                            <div>
+                                <Button
+                                    id="basic-button"
+                                    aria-controls={
+                                        open ? 'basic-menu' : undefined
+                                    }
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    onClick={handleClick}
+                                >
+                                    Cart
+                                </Button>
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                    <MenuItem onClick={handleClose}>
+                                        Detail Carts
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                        CheckOuts
+                                    </MenuItem>
+                                </Menu>
+                            </div>
                         </Box>
                     </Toolbar>
                 </Container>
