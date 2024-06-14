@@ -183,8 +183,8 @@ function Header() {
                                     variant="text"
                                     size="small"
                                     component="a"
-                                    href="/material-ui/getting-started/templates/sign-in/"
-                                    target="_blank"
+                                    // href="/sign-in"
+                                    // target="_blank"
                                 >
                                     <Link href={'/sign-in'}>Sign in</Link>
                                 </Button>
@@ -193,8 +193,8 @@ function Header() {
                                     variant="contained"
                                     size="small"
                                     component="a"
-                                    href="/material-ui/getting-started/templates/sign-up/"
-                                    target="_blank"
+                                    // href="/sign-up"
+                                    // target="_blank"
                                 >
                                     <Link href={'/sign-up'}>Sign up</Link>
                                 </Button>
