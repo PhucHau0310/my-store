@@ -6,7 +6,7 @@ interface User {
     email: string;
     picture: string;
     shippingAddress?: string;
-    mobile?: string;
+    mobile?: string | null | undefined;
     passwordHash?: string;
 }
 

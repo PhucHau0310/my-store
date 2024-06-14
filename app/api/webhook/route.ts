@@ -71,10 +71,13 @@ export async function POST(req: Request) {
         try {
             await addOrUpdateUser({
                 id,
-                name: first_name ?? '' + last_name ?? '',
-                email: email_addresses[0].email_address,
+                name: `${first_name || ''} ${last_name || ''}`.trim(),
+                email: email_addresses[0]?.email_address,
                 picture: image_url,
-                mobile: phone_numbers[0].phone_number,
+                mobile:
+                    phone_numbers && phone_numbers.length > 0
+                        ? phone_numbers[0].phone_number
+                        : null,
             });
 
             return new Response(
