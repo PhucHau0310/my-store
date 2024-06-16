@@ -29,11 +29,15 @@ import CheckIcon from '@mui/icons-material/Check';
 interface AddProductProps {
     openAddCategory: boolean;
     setOpenAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
+    triggerAddCate: boolean;
+    setTriggerAddCate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddCategory: React.FC<AddProductProps> = ({
     openAddCategory,
     setOpenAddCategory,
+    triggerAddCate,
+    setTriggerAddCate,
 }) => {
     const [image, setImage] = useState<string | null>(null);
     const [uploadImg, setUploadImg] = useState<string>('');
@@ -130,6 +134,7 @@ const AddCategory: React.FC<AddProductProps> = ({
             console.log(error);
         } finally {
             setLoading(false);
+            setTriggerAddCate(true);
         }
     };
     return (

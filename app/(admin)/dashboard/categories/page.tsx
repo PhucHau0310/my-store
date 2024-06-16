@@ -38,6 +38,7 @@ const Categories = () => {
     const [message, setMessage] = useState<{ status: boolean; text: string }>();
     const [openDialogDelete, setOpenDialogDelete] = useState<boolean>(false);
     const [idDelete, setIdDelete] = useState<GridRowId>();
+    const [triggerAddCate, setTriggerAddCate] = useState<boolean>(false);
 
     useEffect(() => {
         const getAllCategories = async () => {
@@ -59,7 +60,7 @@ const Categories = () => {
         };
 
         getAllCategories();
-    }, []);
+    }, [triggerAddCate && isLoading]);
 
     useEffect(() => {
         if (message) {
@@ -300,6 +301,8 @@ const Categories = () => {
                 <AddCategory
                     openAddCategory={openAddCategory}
                     setOpenAddCategory={setOpenAddCategory}
+                    triggerAddCate={triggerAddCate}
+                    setTriggerAddCate={setTriggerAddCate}
                 />
             )}
 
