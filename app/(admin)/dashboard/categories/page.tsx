@@ -58,7 +58,7 @@ const Categories = () => {
         };
 
         getAllCategories();
-    }, [triggerAddCate, isLoading]);
+    }, [triggerAddCate]);
 
     useEffect(() => {
         if (message) {
