@@ -159,11 +159,13 @@ const Products = () => {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
+                            key={`save-${id}`}
                             icon={<SaveIcon />}
                             label="Save"
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
+                            key={`save-${id}`}
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
@@ -175,6 +177,7 @@ const Products = () => {
 
                 return [
                     <GridActionsCellItem
+                        key={`save-${id}`}
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
@@ -182,6 +185,7 @@ const Products = () => {
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={`save-${id}`}
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={handleDeleteClick(id)}

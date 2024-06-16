@@ -243,6 +243,7 @@ const Categories = () => {
 
                 return [
                     <GridActionsCellItem
+                        key={`save-${id}`}
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
@@ -250,6 +251,7 @@ const Categories = () => {
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={`save-${id}`}
                         icon={<DeleteIcon />}
                         label="Delete"
                         // onClick={handleDeleteClick(id)}
