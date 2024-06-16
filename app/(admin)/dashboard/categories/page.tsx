@@ -225,11 +225,13 @@ const Categories = () => {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
+                            key={`save-${id}`}
                             icon={<SaveIcon />}
                             label="Save"
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
+                            key={`save-${id}`}
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
