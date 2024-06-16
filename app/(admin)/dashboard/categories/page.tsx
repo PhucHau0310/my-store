@@ -44,9 +44,7 @@ const Categories = () => {
         const getAllCategories = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`/api/category`, {
-                    next: { revalidate: 60 },
-                });
+                const res = await fetch(`/api/category`, { cache: 'no-store' });
                 const data: AllCategories[] = await res.json();
 
                 if (res.ok) {
@@ -60,7 +58,7 @@ const Categories = () => {
         };
 
         getAllCategories();
-    }, [triggerAddCate && isLoading]);
+    }, [triggerAddCate, isLoading]);
 
     useEffect(() => {
         if (message) {

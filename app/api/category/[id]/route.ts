@@ -6,6 +6,8 @@ import {
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = async (
     req: NextRequest,
     { params }: { params: { id: string } }
