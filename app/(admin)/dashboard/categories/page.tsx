@@ -43,7 +43,9 @@ const Categories = () => {
         const getAllCategories = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`/api/category`);
+                const res = await fetch(`/api/category`, {
+                    next: { revalidate: 60 },
+                });
                 const data: AllCategories[] = await res.json();
 
                 if (res.ok) {
