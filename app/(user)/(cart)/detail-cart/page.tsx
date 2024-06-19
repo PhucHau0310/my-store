@@ -144,7 +144,9 @@ const DetailCart = () => {
                         }
                         color="inherit"
                     />,
-                    <Typography>{row.quantityBuy}</Typography>,
+                    <Typography key={`save-${row.quantity}`}>
+                        {row.quantityBuy}
+                    </Typography>,
                     <GridActionsCellItem
                         key={`save-${row.quantity}`}
                         icon={

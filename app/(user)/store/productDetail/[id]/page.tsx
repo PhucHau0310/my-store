@@ -606,7 +606,7 @@ const ProductDetail = () => {
                                                 }}
                                             >
                                                 {product?.Review.length} review
-                                                for "{product?.name}"
+                                                for {product?.name}
                                             </Typography>
 
                                             {product?.Review.map(
