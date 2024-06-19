@@ -277,7 +277,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                     id="alert-dialog-description"
                     sx={{ textAlign: 'center' }}
                 >
-                    Let's filled all information below!
+                    Lets filled all information below!
                 </DialogContentText>
             </DialogContent>
 
