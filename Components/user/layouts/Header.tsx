@@ -10,7 +10,6 @@ import {
     Menu,
     OutlinedInput,
     Select,
-    SelectChangeEvent,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -23,6 +22,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const logoStyle = {
     width: '140px',
@@ -30,22 +30,53 @@ const logoStyle = {
     cursor: 'pointer',
 };
 
+interface AllCategories {
+    id: number;
+    name: string;
+    description: string;
+    image: string;
+    published: boolean;
+}
+
 function Header() {
-    const [categories, setCategories] = React.useState('');
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const userClient = useUser();
+    const [rows, setRows] = React.useState<AllCategories[]>([]);
+    const [categoryType, setCategoryType] = React.useState<
+        string | number | null
+    >(null);
+    const [valueSearch, setValueSearch] = React.useState<string | null>(null);
+    const carts = useSelector((state: any) => state.cart);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    const handleChangeCategory = (event: SelectChangeEvent) => {
-        setCategories(event.target.value as string);
+    const handleSearch = () => {
+        console.log(valueSearch);
     };
+
+    React.useEffect(() => {
+        const getAllCategories = async () => {
+            try {
+                const res = await fetch(`/api/category`);
+                const data: AllCategories[] = await res.json();
+
+                if (res.ok) {
+                    setRows(data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getAllCategories();
+    }, []);
     return (
         <div>
             <AppBar
@@ -88,13 +119,15 @@ function Header() {
                                 px: 0,
                             }}
                         >
-                            <img
-                                src={
-                                    'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
-                                }
-                                style={logoStyle}
-                                alt="logo of sitemark"
-                            />
+                            <Link href="/">
+                                <img
+                                    src={
+                                        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
+                                    }
+                                    style={logoStyle}
+                                    alt="logo of sitemark"
+                                />
+                            </Link>
                         </Box>
 
                         <Box sx={{ minWidth: 200 }}>
@@ -105,13 +138,17 @@ function Header() {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={categories}
-                                    label="Age"
-                                    onChange={handleChangeCategory}
+                                    label="Category"
+                                    value={categoryType}
+                                    onChange={(e) =>
+                                        setCategoryType(e.target.value)
+                                    }
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {rows.map((cate, idx) => (
+                                        <MenuItem key={idx} value={cate.id}>
+                                            {cate.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Box>
@@ -125,7 +162,7 @@ function Header() {
                                     variant="body1"
                                     color="text.primary"
                                 >
-                                    Store
+                                    <Link href={'/store'}>Store</Link>
                                 </Typography>
                             </MenuItem>
                             <MenuItem sx={{ py: '6px', px: '12px' }}>
@@ -133,7 +170,7 @@ function Header() {
                                     variant="body1"
                                     color="text.primary"
                                 >
-                                    About Us
+                                    <Link href={'/about-us'}>About Us</Link>
                                 </Typography>
                             </MenuItem>
                             <MenuItem sx={{ py: '6px', px: '12px' }}>
@@ -141,7 +178,7 @@ function Header() {
                                     variant="body1"
                                     color="text.primary"
                                 >
-                                    Contact
+                                    <Link href={'/contact'}> Contact</Link>
                                 </Typography>
                             </MenuItem>
                         </Box>
@@ -154,6 +191,8 @@ function Header() {
                                 Search Product
                             </InputLabel>
                             <OutlinedInput
+                                value={valueSearch}
+                                onChange={(e) => setValueSearch(e.target.value)}
                                 id="outlined-adornment-password"
                                 type="text"
                                 endAdornment={
@@ -161,6 +200,7 @@ function Header() {
                                         <IconButton
                                             aria-label="Search"
                                             edge="end"
+                                            onClick={handleSearch}
                                         >
                                             <SearchIcon />
                                         </IconButton>
@@ -214,7 +254,7 @@ function Header() {
                                 gap: '3px',
                             }}
                         >
-                            <Badge badgeContent={4} color="success">
+                            <Badge badgeContent={carts.length} color="success">
                                 <ShoppingCartIcon color="primary" />
                             </Badge>
 
@@ -240,10 +280,14 @@ function Header() {
                                     }}
                                 >
                                     <MenuItem onClick={handleClose}>
-                                        Detail Carts
+                                        <Link href={'/detail-cart'}>
+                                            Detail Carts
+                                        </Link>
                                     </MenuItem>
                                     <MenuItem onClick={handleClose}>
-                                        CheckOuts
+                                        <Link href={'/checkout'}>
+                                            CheckOuts
+                                        </Link>
                                     </MenuItem>
                                 </Menu>
                             </div>

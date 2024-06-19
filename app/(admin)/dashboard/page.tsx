@@ -1,21 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Box, Card, CardContent } from '@mui/material';
+import { Box } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PaymentIcon from '@mui/icons-material/Payment';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CheckIcon from '@mui/icons-material/Check';
 import CardTotal from '@/Components/admin/items/CardTotal';
-import { LineChart } from '@mui/x-charts/LineChart';
-import { PieChart } from '@mui/x-charts/PieChart';
-import {
-    PieItemIdentifier,
-    DefaultizedPieValueType,
-} from '@mui/x-charts/models';
-import { Stack } from '@mui/material';
 import CardSub from '@/Components/admin/items/CardSub';
 import ChartDashboard from '@/Components/admin/items/ChartDashboard';
 import RecentOrder from '@/Components/admin/items/RecentOrder';

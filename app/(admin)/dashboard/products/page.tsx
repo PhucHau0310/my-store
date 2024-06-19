@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box, Typography, styled, Fab } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Fab, CircularProgress, Alert } from '@mui/material';
 import {
     DataGrid,
     GridColDef,
-    GridRowsProp,
     GridRowModes,
     GridRowModesModel,
     GridEventListener,
@@ -21,39 +20,38 @@ import CancelIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import AddProduct from '@/Components/admin/items/AddProduct';
 import CustomNoRows from '@/Components/admin/items/CustomNoRows';
+import DialogDeleteProduct from '@/Components/admin/items/DialogDeleteProduct';
 
-const initialRows: GridRowsProp = [
-    {
-        id: 1,
-        productName: 'Alibaba',
-        category: 'Online',
-        price: 232.2,
-        salePrice: 102,
-        stock: 10,
-        status: 'Available',
-        published: true,
-    },
-    {
-        id: 2,
-        productName: 'NoNoNo',
-        category: 'Offline',
-        price: 565.2,
-        salePrice: 150,
-        stock: 20,
-        status: 'Available',
-        published: true,
-    },
-];
+interface StockInter {
+    id: number;
+    productId: number;
+    warehouseId: number;
+    quantity: number;
+}
+interface AllProducts {
+    id: number;
+    name: String;
+    picture: string;
+    version: string;
+    description: string;
+    price: number;
+    quantity: number;
+    published: boolean;
+    categoryId: number;
+    Stock?: StockInter;
+}
 
 const Products = () => {
-    const [rows, setRows] = React.useState(initialRows);
+    const [rows, setRows] = useState<AllProducts[]>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     );
-    const [paginationModel, setPaginationModel] = React.useState({
-        pageSize: 5,
-        page: 0,
-    });
+    const [openAddProduct, setOpenAddProduct] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [message, setMessage] = useState<{ status: boolean; text: string }>();
+    const [openDialogDelete, setOpenDialogDelete] = useState<boolean>(false);
+    const [idDelete, setIdDelete] = useState<GridRowId>();
+    const [triggerAddCate, setTriggerAddCate] = useState<boolean>(false);
 
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (
         params,
@@ -71,15 +69,50 @@ const Products = () => {
         });
     };
 
-    const handleSaveClick = (id: GridRowId) => () => {
-        setRowModesModel({
-            ...rowModesModel,
-            [id]: { mode: GridRowModes.View },
-        });
-    };
+    // fix update product
+    const handleSaveClick = (id: GridRowId) => async () => {
+        try {
+            setLoading(true);
+            const row = rows.find((r) => r.id === id);
+            const data = {
+                id: row?.id,
+                name: row?.name,
+                picture: row?.picture,
+                version: row?.version,
+                description: row?.description,
+                price: row?.price,
+                quantity: row?.quantity,
+                published: row?.published,
+                categoryId: row?.categoryId,
+            };
+            const response = await fetch(`/api/product/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
 
-    const handleDeleteClick = (id: GridRowId) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+            const { message } = await response.json();
+
+            if (message) {
+                setMessage({
+                    status: response.status === 200 ? true : false,
+                    text: message,
+                });
+            }
+
+            if (response.ok) {
+                setRowModesModel({
+                    ...rowModesModel,
+                    [id]: { mode: GridRowModes.View },
+                });
+            } else {
+                // Xử lý lỗi nếu cần
+            }
+        } catch (error) {
+            console.error('Error updating product:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCancelClick = (id: GridRowId) => () => {
@@ -87,34 +120,113 @@ const Products = () => {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
+    };
 
-        const editedRow = rows.find((row) => row.id === id);
-        if (editedRow!.isNew) {
-            setRows(rows.filter((row) => row.id !== id));
+    // fix update product
+    const processRowUpdate = async (newRow: GridRowModel) => {
+        try {
+            const data = {
+                id: newRow?.id,
+                name: newRow?.name,
+                picture: newRow?.picture,
+                version: newRow?.version,
+                description: newRow?.description,
+                price: newRow?.price,
+                quantity: newRow?.quantity,
+                published: newRow?.published,
+                categoryId: newRow?.categoryId,
+            };
+            const response = await fetch(`/api/product/${newRow.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                const updatedRow: AllProducts = {
+                    id: newRow.id,
+                    name: newRow.name,
+                    picture: newRow.picture,
+                    version: newRow.version,
+                    description: newRow.description,
+                    price: newRow.price,
+                    quantity: newRow.quantity,
+                    published: newRow.published,
+                    categoryId: newRow.categoryId,
+                };
+
+                setRows((prevRows) =>
+                    prevRows.map((row) =>
+                        row.id === newRow.id ? updatedRow : row
+                    )
+                );
+
+                return updatedRow;
+            } else {
+                return rows.find((row) => row.id === newRow.id) || newRow;
+            }
+        } catch (error) {
+            console.error('Error updating row:', error);
+            return rows.find((row) => row.id === newRow.id) || newRow;
         }
     };
 
-    // const processRowUpdate = (newRow: GridRowModel) => {
-    //     const updatedRow = { ...newRow, isNew: false };
-    //     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    //     return updatedRow;
-    // };
+    const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
+        setRowModesModel(newRowModesModel);
+    };
 
-    // const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    //     setRowModesModel(newRowModesModel);
-    // };
+    const handleShowDialog = (id: GridRowId) => {
+        setOpenDialogDelete(true);
+        setIdDelete(id);
+    };
+
+    const renderStock = (stocks: StockInter[] | undefined, id: GridRowId) => {
+        if (!stocks || stocks.length === 0) {
+            return 0;
+        }
+
+        const currentStock = stocks.find((stock) => stock.productId === id);
+
+        if (!currentStock) {
+            return 0;
+        }
+
+        return currentStock.quantity;
+    };
 
     const columns: GridColDef[] = [
         {
-            field: 'productName',
+            field: 'id',
+            headerName: 'ID',
+            width: 100,
+            editable: true,
+        },
+        {
+            field: 'picture',
+            headerName: 'PICTURE',
+            width: 100,
+            renderCell: (params) => (
+                <img
+                    src={params.value}
+                    alt={params.row.name}
+                    style={{
+                        width: '50px',
+                        height: '50px',
+                        objectFit: 'cover',
+                    }}
+                />
+            ),
+        },
+        {
+            field: 'name',
             headerName: 'Product Name',
             width: 180,
             editable: true,
         },
         {
-            field: 'category',
-            headerName: 'Category',
-            width: 180,
+            field: 'categoryId',
+            headerName: 'Category ID',
+            width: 100,
             editable: true,
         },
         {
@@ -137,8 +249,22 @@ const Products = () => {
             type: 'number',
             width: 150,
             editable: true,
+            renderCell: (params) =>
+                renderStock(params.row.Stock, params.row.id),
         },
-        { field: 'status', headerName: 'Status', width: 150, editable: true },
+        {
+            field: 'version',
+            headerName: 'Version',
+            width: 100,
+            editable: true,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 150,
+            renderCell: (params) =>
+                params.row.published ? 'Available' : 'Unavailable',
+        },
         {
             field: 'published',
             headerName: 'Published',
@@ -188,7 +314,8 @@ const Products = () => {
                         key={`save-${id}`}
                         icon={<DeleteIcon />}
                         label="Delete"
-                        onClick={handleDeleteClick(id)}
+                        // onClick={handleDeleteClick(id)}
+                        onClick={() => handleShowDialog(id)}
                         color="inherit"
                     />,
                 ];
@@ -196,13 +323,57 @@ const Products = () => {
         },
     ];
 
-    const [openAddProduct, setOpenAddProduct] = useState<boolean>(false);
+    useEffect(() => {
+        const products = async () => {
+            try {
+                setLoading(true);
+                const res = await fetch(`/api/product`);
+                const data: AllProducts[] = await res.json();
+
+                if (res.ok) {
+                    setRows(data);
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        products();
+    }, [triggerAddCate]);
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage(undefined);
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
 
     return (
         <Box>
             <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
                 Products
             </Typography>
+
+            {isLoading && <CircularProgress />}
+
+            {message && (
+                <Alert
+                    sx={{
+                        position: 'fixed',
+                        right: '0px',
+                        top: '10%',
+                        width: '400px',
+                    }}
+                    severity={message.status ? 'success' : 'error'}
+                >
+                    {message.text}
+                </Alert>
+            )}
 
             <Fab
                 onClick={() => setOpenAddProduct(true)}
@@ -217,6 +388,7 @@ const Products = () => {
                 <AddProduct
                     openAddProduct={openAddProduct}
                     setOpenAddProduct={setOpenAddProduct}
+                    setTriggerAddCate={setTriggerAddCate}
                 />
             )}
 
@@ -225,21 +397,29 @@ const Products = () => {
                     rows={rows}
                     columns={columns}
                     editMode="row"
+                    checkboxSelection
                     rowModesModel={rowModesModel}
                     onRowEditStop={handleRowEditStop}
-                    // onRowModesModelChange={handleRowModesModelChange}
-                    // processRowUpdate={processRowUpdate}
+                    onRowModesModelChange={handleRowModesModelChange}
+                    processRowUpdate={processRowUpdate}
                     slots={{
                         noRowsOverlay: CustomNoRows,
                     }}
                     slotProps={{
                         toolbar: { setRows, setRowModesModel },
                     }}
-                    pageSizeOptions={[5, 10, 25]}
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
                 />
             </Box>
+
+            <DialogDeleteProduct
+                openDialogDelete={openDialogDelete}
+                setOpenDialogDelete={setOpenDialogDelete}
+                id={idDelete}
+                setLoading={setLoading}
+                setMessage={setMessage}
+                setRows={setRows}
+                rows={rows}
+            />
         </Box>
     );
 };

@@ -109,6 +109,7 @@ const AddCategory: React.FC<AddProductProps> = ({
 
         try {
             setLoading(true);
+            setTriggerAddCate(false);
             const data = {
                 name: name,
                 description: desc,

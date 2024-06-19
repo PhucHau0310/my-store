@@ -28,6 +28,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     p: 3,
                     backgroundColor: '#f8f7f1',
                     overflowX: 'scroll',
+                    height: '100vh',
                 }}
             >
                 <div style={{ height: '64px', backgroundColor: '#f8f7f1' }} />{' '}

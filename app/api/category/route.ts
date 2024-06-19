@@ -1,6 +1,5 @@
-import { addCategory, getAllCategories } from '@/lib/actions/categoryAction';
-import { getAuth } from '@clerk/nextjs/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { getAllCategories } from '@/lib/actions/categoryAction';
+import { NextResponse } from 'next/server';
 
 export const GET = async () => {
     try {
@@ -13,7 +12,7 @@ export const GET = async () => {
         }
     } catch (error) {
         return new NextResponse(
-            JSON.stringify({ message: 'Failed to add category' }),
+            JSON.stringify({ message: 'Failed to get all category' }),
             { status: 500 }
         );
     }

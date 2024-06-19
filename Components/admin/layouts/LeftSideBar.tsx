@@ -24,6 +24,7 @@ import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PublicIcon from '@mui/icons-material/Public';
 import { useRouter } from 'next/navigation';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
 
 const drawerWidth = 240;
 
@@ -99,18 +100,23 @@ const menu1 = [
         icon: <TrendingDownIcon />,
         route: '/dashboard/coupons',
     },
+    {
+        title: 'Warehouse',
+        icon: <WarehouseIcon />,
+        route: '/dashboard/warehouse',
+    },
 ];
 
 const menu2 = [
     {
-        title: 'Customers',
-        icon: <PeopleAltIcon />,
-        route: '/dashboard/customers',
-    },
-    {
         title: 'Orders',
         icon: <BookmarkBorderIcon />,
         route: '/dashboard/orders',
+    },
+    {
+        title: 'Customers',
+        icon: <PeopleAltIcon />,
+        route: '/dashboard/customers',
     },
     {
         title: 'Our Staff',
@@ -279,6 +285,7 @@ const LeftSideBar: React.FC<LeftSideBarProps> = ({
                         key={index}
                         disablePadding
                         sx={{ display: 'block' }}
+                        onClick={() => router.push(item.route)}
                     >
                         <ListItemButton
                             sx={{

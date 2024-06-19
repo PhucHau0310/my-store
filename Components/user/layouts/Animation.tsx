@@ -6,7 +6,7 @@ import Lottie from 'react-lottie-player';
 
 const Animation = () => {
     const handleScroll = () => {
-        const mainElement = document.getElementById('container');
+        const mainElement = document.getElementById('direct-container');
         if (mainElement) {
             const mainPosition = mainElement.offsetTop;
             window.scrollTo({
@@ -45,7 +45,11 @@ const Animation = () => {
                         borderRadius: '999px',
                     }}
                 >
-                    <Typography variant="button" color="white">
+                    <Typography
+                        onClick={handleScroll}
+                        variant="button"
+                        color="white"
+                    >
                         Buy Products
                     </Typography>
                 </Button>

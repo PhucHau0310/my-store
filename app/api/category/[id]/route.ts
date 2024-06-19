@@ -6,8 +6,6 @@ import {
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
-
 export const GET = async (
     req: NextRequest,
     { params }: { params: { id: string } }
@@ -57,7 +55,7 @@ export const DELETE = async (
     } catch (error) {
         return new NextResponse(
             JSON.stringify({
-                message: `Failed to get ID category: ${params.id} `,
+                message: `Failed to delete ID category: ${params.id} `,
             }),
             { status: 500 }
         );
@@ -94,7 +92,7 @@ export const PUT = async (
     } catch (error) {
         return new NextResponse(
             JSON.stringify({
-                message: `Failed to get ID category: ${params.id} `,
+                message: `Failed to update ID category: ${params.id} `,
             }),
             { status: 500 }
         );

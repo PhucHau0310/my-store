@@ -7,6 +7,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import Link from 'next/link';
+import { Box, Button } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 
@@ -66,6 +69,27 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
                 >
                     Analytical Board
                 </Typography>
+
+                <Button
+                    sx={{
+                        display: 'block',
+                        marginLeft: 'auto',
+                        marginRight: '25px',
+                    }}
+                >
+                    <Link href={'/'}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: '10px',
+                            }}
+                        >
+                            <HomeIcon /> Home
+                        </Box>
+                    </Link>
+                </Button>
             </Toolbar>
         </AppBar>
     );

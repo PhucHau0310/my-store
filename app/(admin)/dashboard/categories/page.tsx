@@ -44,7 +44,7 @@ const Categories = () => {
         const getAllCategories = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`/api/category`, { cache: 'no-store' });
+                const res = await fetch(`/api/category`);
                 const data: AllCategories[] = await res.json();
 
                 if (res.ok) {
@@ -309,6 +309,7 @@ const Categories = () => {
                     rows={rows}
                     columns={columns}
                     editMode="row"
+                    checkboxSelection
                     rowModesModel={rowModesModel}
                     onRowModesModelChange={handleRowModesModelChange}
                     onRowEditStop={handleRowEditStop}
