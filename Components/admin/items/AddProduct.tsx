@@ -508,8 +508,8 @@ const AddProduct: React.FC<AddProductProps> = ({
                         <Image
                             src={image}
                             alt="image file selected"
-                            width={80}
-                            height={80}
+                            width={220}
+                            height={220}
                             className="bg-orange-300 absolute bottom-0 left-1/2 -translate-x-1/2 mb-2 rounded-md p-2"
                         />
                     )}
