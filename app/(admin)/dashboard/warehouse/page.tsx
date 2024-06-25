@@ -12,6 +12,7 @@ import {
     GridRowModel,
     GridRowEditStopReasons,
     GridActionsCellItem,
+    GridToolbar,
 } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -289,6 +290,7 @@ const Warehouse = () => {
                     processRowUpdate={processRowUpdate}
                     slots={{
                         noRowsOverlay: CustomNoRows,
+                        toolbar: GridToolbar,
                     }}
                     slotProps={{
                         toolbar: { setRows, setRowModesModel },

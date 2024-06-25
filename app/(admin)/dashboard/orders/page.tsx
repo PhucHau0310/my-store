@@ -3,7 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Box, CircularProgress, styled } from '@mui/material';
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridColDef,
+    GridRowsProp,
+    GridToolbar,
+} from '@mui/x-data-grid';
 import PrintIcon from '@mui/icons-material/Print';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -276,7 +281,10 @@ const Orders: React.FC = () => {
                         Recent Orders
                     </Typography>
                     <DataGrid
-                        slots={{ noRowsOverlay: CustomNoRowsOverlay }}
+                        slots={{
+                            noRowsOverlay: CustomNoRowsOverlay,
+                            toolbar: GridToolbar,
+                        }}
                         sx={{ '--DataGrid-overlayHeight': '300px' }}
                         autoHeight
                         checkboxSelection
