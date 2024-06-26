@@ -71,6 +71,11 @@ const CheckOut = () => {
         //     paymentType,
         // });
 
+        if (!user.user?.id) {
+            setAlert({ status: 400, text: 'User not authenticated' });
+            return;
+        }
+
         if (
             !firstName ||
             !lastName ||
@@ -84,7 +89,7 @@ const CheckOut = () => {
 
         const data = {
             carts: carts,
-            userIdd: user.user?.id ?? '',
+            userIdd: user.user?.id.toString() ?? '',
             shippingAddress: address,
             paymentMethod: paymentType,
         };

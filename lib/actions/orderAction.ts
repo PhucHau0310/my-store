@@ -51,6 +51,14 @@ export const createOrders = async (
 ) => {
     try {
         const stock = await prisma.$transaction(async (prisma) => {
+            const user = await prisma.user.findUnique({
+                where: { id: userIdd },
+            });
+
+            if (!user) {
+                throw new Error('User not found');
+            }
+
             for (const item of carts) {
                 const stock = await prisma.stock.findFirst({
                     where: {
