@@ -1,5 +1,8 @@
+'use client';
+
 import { Box, Stack, Typography } from '@mui/material';
 import { LineChart, PieChart } from '@mui/x-charts';
+import React from 'react';
 
 const uData = [
     4000, 3000, 2000, 2780, 1890, 2390, 3490, 5000, 4002, 2201, 3333, 2323,
@@ -22,13 +25,74 @@ const xLabels = [
     'Month 12',
 ];
 
-const items = [
-    { value: 10, label: 'Series A ( no Id )' },
-    { id: 'id_B', value: 15, label: 'Series B' },
-    { id: 'id_C', value: 20, label: 'Series C' },
-];
+interface Props {
+    productCounts: {
+        [key: number]: number;
+    };
+}
 
-const ChartDashboard = () => {
+interface ArrayType {
+    productId: number;
+    quantity: number;
+    percent: number;
+}
+
+interface Products {
+    id: number;
+    name: string;
+}
+
+const ChartDashboard = ({ productCounts }: Props) => {
+    const [array, setArray] = React.useState<ArrayType[]>([]);
+    const [products, setProducts] = React.useState<Products[]>([]);
+
+    React.useEffect(() => {
+        const products = async () => {
+            try {
+                const res = await fetch(`/api/product`);
+                const data: Products[] = await res.json();
+
+                if (res.ok) {
+                    setProducts(data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        products();
+    }, []);
+
+    React.useEffect(() => {
+        const sortedArray = Object.entries(productCounts)
+            .map(([key, value]) => ({
+                productId: Number(key),
+                quantity: value,
+            }))
+            .sort((a, b) => b.quantity - a.quantity)
+            .slice(0, 5); // Take top 5
+
+        const total = sortedArray.reduce((acc, item) => acc + item.quantity, 0);
+
+        const newArray = sortedArray.map((item) => ({
+            ...item,
+            percent: (item.quantity / total) * 100,
+        }));
+
+        setArray(newArray);
+    }, [productCounts]);
+
+    console.log(products);
+    console.log(array);
+
+    const items = array.map((item) => {
+        const product = products.find((pro) => pro.id === item.productId);
+        return {
+            value: item.percent,
+            label: product ? product.name : `Product ${item.productId}`,
+        };
+    });
+
     return (
         <Box
             sx={{
@@ -82,7 +146,7 @@ const ChartDashboard = () => {
                         marginBottom: '20px',
                     }}
                 >
-                    Best Selling Charts
+                    Best Selling Products
                 </Typography>
                 <Stack
                     direction={{ xs: 'column', md: 'row' }}

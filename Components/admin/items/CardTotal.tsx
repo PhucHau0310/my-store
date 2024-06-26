@@ -87,7 +87,7 @@ const CardTotal: React.FC<CardProps> = ({
                         }}
                     >
                         <Typography sx={{ fontSize: 18 }} color="white">
-                            {sub_info?.card && 'Card:'}
+                            {sub_info?.card && 'Credit:'}
                         </Typography>
                         <Typography sx={{ fontSize: 18 }} color="white">
                             {sub_info?.card}
@@ -102,7 +102,7 @@ const CardTotal: React.FC<CardProps> = ({
                         }}
                     >
                         <Typography sx={{ fontSize: 18 }} color="white">
-                            {sub_info?.credit && 'Credit:'}
+                            {sub_info?.credit && 'Paypal:'}
                         </Typography>
                         <Typography sx={{ fontSize: 18 }} color="white">
                             {sub_info?.credit}
