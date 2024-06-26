@@ -84,7 +84,7 @@ const CheckOut = () => {
 
         const data = {
             carts: carts,
-            userIdd: user.user?.id,
+            userIdd: user.user?.id ?? '',
             shippingAddress: address,
             paymentMethod: paymentType,
         };

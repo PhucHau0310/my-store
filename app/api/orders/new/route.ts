@@ -28,6 +28,11 @@ export const POST = async (req: NextRequest) => {
                 JSON.stringify({ message: 'Add orders Success' }),
                 { status: 200 }
             );
+        } else {
+            return new NextResponse(
+                JSON.stringify({ message: 'Failed to add orders' }),
+                { status: 500 }
+            );
         }
     } catch (error) {
         return new NextResponse(
