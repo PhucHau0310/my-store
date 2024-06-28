@@ -6,7 +6,7 @@ export const PUT = async (
     { params }: { params: { id: string } }
 ) => {
     try {
-        const { status, shippingAddress } = await req.json();
+        const { status, shippingAddress, orderDate } = await req.json();
         const updatedOrder = await prisma.order.update({
             where: {
                 id: Number(params.id),
@@ -15,10 +15,18 @@ export const PUT = async (
                 id: Number(params.id),
                 status,
                 shippingAddress,
+                orderDate,
             },
             include: {
                 orderItems: true,
-                payment: true,
+                payment: {
+                    where: {
+                        orderId: Number(params.id),
+                    },
+                    select: {
+                        paymentDate: true,
+                    },
+                },
             },
         });
 
